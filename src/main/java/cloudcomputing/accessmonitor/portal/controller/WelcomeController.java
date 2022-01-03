@@ -9,6 +9,7 @@ public class WelcomeController {
 
     @RequestMapping(value = "welcome", method = RequestMethod.GET)
     public String welcomePage() {
+        System.out.println("called welcome controller");
         return "welcome";
     }
 }
