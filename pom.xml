@@ -13,7 +13,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>portal</name>
     <description>Portal for Access Monitor</description>
-    <packaging>war</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
