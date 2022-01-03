@@ -94,7 +94,6 @@ public class Config implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
-        viewControllerRegistry.addViewController("/").setViewName("index");
     }
 
     @Override
