@@ -8,12 +8,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class PortalApplication extends SpringBootServletInitializer {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(PortalApplication.class);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(PortalApplication.class, args);
     }
+
 }
