@@ -29,4 +29,19 @@ public class WelcomeController {
         model.addAttribute("oggetto", Arrays.asList("ua", "bell", "stu", "thymeleaf"));
         return "ciao";
     }
+
+    @RequestMapping(value = "/H", method = RequestMethod.GET)
+    public String hPage(Model model) {
+        System.out.println("called index controller");
+        model.addAttribute("oggetto", Arrays.asList("ua"));
+        return "H";
+    }
+
+    @RequestMapping(value = "/prova", method = RequestMethod.GET)
+    public String provaPage(Model model) {
+        System.out.println("called index controller");
+        model.addAttribute("oggetto", Arrays.asList("ua"));
+        return "prova";
+    }
+
 }
