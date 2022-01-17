@@ -8,8 +8,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
+import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
 
 import java.net.URI;
 
@@ -20,29 +24,29 @@ public class FaceApiConfiguration {
 
     @Bean
     public void createPersonGroup(){
-/*
+
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         try
         {
-            URIBuilder builder = new URIBuilder("https://riconoscimento.cognitiveservices.azure.com/face/v1.0/persongroups/gruppo1");
+            URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT+ "/face/v1.0/persongroups/" + FACEAPI_PERSON_GROUP_NAME);
 
 
             URI uri = builder.build();
             HttpPut request = new HttpPut(uri);
-            request.setHeader("Content-Type", "application/json");
-            request.setHeader("Ocp-Apim-Subscription-Key", "");
+            request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+            request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY);
 
 
             // Request body
             StringEntity reqEntity = new StringEntity("{\n" +
-                    "    \"name\": \"gruppo1\",\n" +
+                    "    \"name\": \" "+ FACEAPI_PERSON_GROUP_NAME +" \",\n" +
                     "    \"userData\": \"gruppo di prova\",\n" +
                     "    \"recognitionModel\": \"recognition_03\"\n" +
                     "}");
             request.setEntity(reqEntity);
 
-            HttpResponse response = ((CloseableHttpClient) httpclient).execute(request);
+            HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
 
             if (entity != null)
@@ -55,7 +59,7 @@ public class FaceApiConfiguration {
             System.out.println(e.getMessage());
         }
 
-*/
+
     }
 
 }

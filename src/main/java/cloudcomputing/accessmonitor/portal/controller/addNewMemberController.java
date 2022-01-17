@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
+import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
+
+
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
+
 import java.util.Arrays;
 
 @Controller
@@ -48,9 +49,12 @@ public class addNewMemberController {
             @RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password ) {
 
+        String personId;
+
         System.out.println("Sono stato chimamto da + " + firstName);
-        createNewPerson(firstName, lastName);
-        addFaceToPerson(null, file);
+        personId = createNewPerson(firstName, lastName);
+        addFaceToPerson(personId, file);
+
         return "addNewMember";
 
     }
@@ -62,13 +66,13 @@ public class addNewMemberController {
 
         try
         {
-            URIBuilder builder = new URIBuilder("https://riconoscimento.cognitiveservices.azure.com/face/v1.0/persongroups/gruppo1/persons");
+            URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/" + FACEAPI_PERSON_GROUP_NAME + "/persons");
 
 
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
-            request.setHeader("Content-Type", "application/json");
-            request.setHeader("Ocp-Apim-Subscription-Key", "");
+            request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_JSON );
+            request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY );
 
             JSONObject obj=new JSONObject();
             obj.put("name", firstName + lastName);
@@ -88,6 +92,7 @@ public class addNewMemberController {
                 JSONObject json = (JSONObject) parser.parse(EntityUtils.toString(entity));
                 personId = (String) json.get("personId");
             }
+
         }
         catch (Exception e)
         {
@@ -114,13 +119,14 @@ public class addNewMemberController {
 
         try
         {
-            URIBuilder builder = new URIBuilder("https://riconoscimento.cognitiveservices.azure.com/face/v1.0/persongroups/gruppo1/persons/dec043c2-3cd3-4135-8238-e26394c1c8b1/persistedFaces");
+            URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/"+ FACEAPI_PERSON_GROUP_NAME
+                    +"/persons/"+personId+"/persistedFaces");
 
 
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
-            request.setHeader("Content-Type", "application/octet-stream");
-            request.setHeader("Ocp-Apim-Subscription-Key", "");
+            request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_OCTET_STREAM);
+            request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY);
 
 
             ByteArrayEntity reqEntity = new ByteArrayEntity(bytes, ContentType.APPLICATION_OCTET_STREAM);
