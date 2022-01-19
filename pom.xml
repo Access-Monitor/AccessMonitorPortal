@@ -15,8 +15,10 @@
     <description>Portal for Access Monitor</description>
     <properties>
         <java.version>11</java.version>
+        <azure.version>3.10.0</azure.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -69,6 +71,8 @@
             <artifactId>json-simple</artifactId>
             <version>1.1</version>
         </dependency>
+
+
 
     </dependencies>
 
