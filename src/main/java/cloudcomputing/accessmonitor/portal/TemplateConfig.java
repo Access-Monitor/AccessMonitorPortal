@@ -35,19 +35,6 @@ public class TemplateConfig {
         return secondaryTemplateResolver;
     }
 
-    @Bean
-    public ClassLoaderTemplateResolver staticResolver() {
-        ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
-        secondaryTemplateResolver.setPrefix("static/");
-        secondaryTemplateResolver.setSuffix(".js");
-        secondaryTemplateResolver.setTemplateMode(TemplateMode.JAVASCRIPT);
-        secondaryTemplateResolver.setCharacterEncoding("UTF-8");
-        secondaryTemplateResolver.setOrder(3);
-        secondaryTemplateResolver.setCheckExistence(true);
 
-        return secondaryTemplateResolver;
-    }
-
-    
 
 }
