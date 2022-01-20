@@ -51,7 +51,7 @@ public class addNewMemberController {
 
         String personId;
 
-        System.out.println("Sono stato chimamto da + " + firstName);
+        System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
         addFaceToPerson(personId, file);
 
@@ -69,10 +69,14 @@ public class addNewMemberController {
             URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/" + FACEAPI_PERSON_GROUP_NAME + "/persons");
 
 
+
             URI uri = builder.build();
+            System.out.println("create new persone uri " + uri);
             HttpPost request = new HttpPost(uri);
             request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_JSON );
             request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY );
+
+            System.out.println("subscription: " + FACEAPI_SUBSCRIPTION_KEY);
 
             JSONObject obj=new JSONObject();
             obj.put("name", firstName + lastName);
