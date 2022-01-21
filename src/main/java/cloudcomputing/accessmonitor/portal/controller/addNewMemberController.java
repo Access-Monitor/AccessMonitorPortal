@@ -1,6 +1,8 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
 
+import cloudcomputing.accessmonitor.portal.model.persistence.Member;
+import cloudcomputing.accessmonitor.portal.service.PersistenceServiceCosmosDBimpl;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,6 +36,8 @@ import java.util.Arrays;
 @Controller
 public class addNewMemberController {
 
+    private final PersistenceServiceCosmosDBimpl persistenceService = new PersistenceServiceCosmosDBimpl();
+
     @RequestMapping(value = "/addNewMember", method = RequestMethod.GET)
     public String addNewMemberPage(Model model) {
         System.out.println("called index controller");
@@ -47,15 +51,24 @@ public class addNewMemberController {
             @RequestParam(name = "firstname") String firstName,
             @RequestParam(name = "lastname") String lastName,
             @RequestParam(name = "email") String email,
-            @RequestParam(name = "password") String password ) {
+            @RequestParam(name = "role") String role,
+            @RequestParam(name = "phone") String phone) {
 
         String personId;
 
         System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
         addFaceToPerson(personId, file);
+        storeNewMember(personId, email, role, phone);
 
         return "addNewMember";
+
+    }
+
+    private void storeNewMember(String personId, String email, String role, String phoneNumber){
+
+        Member member = new Member(email, personId, role, phoneNumber);
+        persistenceService.addNewMember(member);
 
     }
 
