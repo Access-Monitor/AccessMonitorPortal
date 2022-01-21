@@ -59,15 +59,15 @@ public class addNewMemberController {
         System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
         addFaceToPerson(personId, file);
-        storeNewMember(personId, email, role, phone);
+        storeNewMember(personId, email, role, phone, firstName, lastName);
 
         return "addNewMember";
 
     }
 
-    private void storeNewMember(String personId, String email, String role, String phoneNumber){
+    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName){
 
-        Member member = new Member(email, personId, role, phoneNumber);
+        Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName);
         persistenceService.addNewMember(member);
 
     }

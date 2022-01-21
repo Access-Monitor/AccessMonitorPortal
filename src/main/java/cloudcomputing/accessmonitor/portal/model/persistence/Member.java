@@ -6,6 +6,18 @@ public class Member {
     private String personId;
     private String role;
     private String phoneNumber;
+    private String firstName;
+    private String lastName;
+
+    public String getRole() { return role; }
+
+    public String getFirstName() { return firstName; }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
     public String getId() {
         return id;
@@ -23,10 +35,6 @@ public class Member {
         this.personId = personId;
     }
 
-    public String getRoles() {
-        return role;
-    }
-
     public void setRole(String roles) {
         this.role = role;
     }
@@ -39,17 +47,12 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    public Member(String email, String personId, String role, String phoneNumber) {
-        this.id = email;
+    public Member(String id, String personId, String role, String phoneNumber, String firstName, String lastName) {
+        this.id = id;
         this.personId = personId;
         this.role = role;
         this.phoneNumber = phoneNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
-
-
-
-
-
-
-
 }

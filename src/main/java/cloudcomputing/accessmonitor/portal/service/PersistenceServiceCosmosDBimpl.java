@@ -33,9 +33,9 @@ public class PersistenceServiceCosmosDBimpl {
     }
 
 
-    public CosmosPagedIterable<Member> lastDetectionByPersonID(String personId) {
-        return container.queryItems("SELECT * FROM c WHERE c.personId='" + personId + "' ORDER BY c.detectionTimestamp ASC",
-                new CosmosQueryRequestOptions(), Member.class);
+    public CosmosPagedIterable<Member> getAllPeopleLimited(int offset, int limit) {
+        String query = String.format("SELECT * FROM c LIMIT %d , %d", offset, limit);
+        return container.queryItems(query, new CosmosQueryRequestOptions(), Member.class);
     }
 
 
