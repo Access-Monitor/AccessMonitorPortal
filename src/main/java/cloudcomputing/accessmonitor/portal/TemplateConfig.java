@@ -20,21 +20,6 @@ public class TemplateConfig {
 
         return secondaryTemplateResolver;
     }
-
-
-    @Bean
-    public ClassLoaderTemplateResolver thirdTemplateResolver() {
-        ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
-        secondaryTemplateResolver.setPrefix("templates-3/");
-        secondaryTemplateResolver.setSuffix(".html");
-        secondaryTemplateResolver.setTemplateMode(TemplateMode.HTML);
-        secondaryTemplateResolver.setCharacterEncoding("UTF-8");
-        secondaryTemplateResolver.setOrder(1);
-        secondaryTemplateResolver.setCheckExistence(true);
-
-        return secondaryTemplateResolver;
-    }
-
-
+    
 
 }
