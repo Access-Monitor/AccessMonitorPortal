@@ -1,7 +1,16 @@
 package cloudcomputing.accessmonitor.portal.model.persistence;
 
+import com.azure.spring.data.cosmos.core.mapping.Container;
+import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
+
+@Container(containerName = "AuthorizedMembers")
 public class Member {
 
+    @Id
+    @PartitionKey
     private String id;
     private String personId;
     private String role;
@@ -45,6 +54,19 @@ public class Member {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public Member(String id, String personId, String role, String phoneNumber, String firstName, String lastName) {

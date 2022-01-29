@@ -28,7 +28,7 @@ public class PersistenceServiceCosmosDBimpl {
         CosmosDatabaseResponse databaseResponse = client.createDatabaseIfNotExists(DATABASE_NAME);
         CosmosDatabase database = client.getDatabase(databaseResponse.getProperties().getId());
         CosmosContainerResponse containerResponse =
-                database.createContainerIfNotExists(new CosmosContainerProperties(AUDIT_CONTAINER_NAME, "/personId"));
+                database.createContainerIfNotExists(new CosmosContainerProperties(AUDIT_CONTAINER_NAME, "/id"));
         container = database.getContainer(containerResponse.getProperties().getId());
     }
 
@@ -40,7 +40,7 @@ public class PersistenceServiceCosmosDBimpl {
 
 
     public void addNewMember(Member newMember) {
-        container.createItem(newMember, new PartitionKey(newMember.getPersonId()), new CosmosItemRequestOptions());
+        container.createItem(newMember, new PartitionKey(newMember.getId()), new CosmosItemRequestOptions());
     }
 
 }

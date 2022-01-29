@@ -2,8 +2,8 @@ package cloudcomputing.accessmonitor.portal.controller;
 
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
+import cloudcomputing.accessmonitor.portal.service.MemberRepository;
 import cloudcomputing.accessmonitor.portal.service.PersistenceServiceCosmosDBimpl;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -17,12 +17,14 @@ import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
 import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
@@ -34,9 +36,12 @@ import java.net.URI;
 import java.util.Arrays;
 
 @Controller
-public class addNewMemberController {
+public class addNewMemberController  {
 
-    private final PersistenceServiceCosmosDBimpl persistenceService = new PersistenceServiceCosmosDBimpl();
+    //private final PersistenceServiceCosmosDBimpl persistenceService = new PersistenceServiceCosmosDBimpl();
+
+    @Autowired
+    private MemberRepository repository;
 
     @RequestMapping(value = "/addNewMember", method = RequestMethod.GET)
     public String addNewMemberPage(Model model) {
@@ -46,13 +51,13 @@ public class addNewMemberController {
     }
 
     @RequestMapping(value = "/creationNewMember", method = {RequestMethod.GET , RequestMethod.POST})
-    public String createNewPerson(
+    public String createNewPerson (
             @RequestParam(name = "avatar-file") MultipartFile file,
             @RequestParam(name = "firstname") String firstName,
             @RequestParam(name = "lastname") String lastName,
             @RequestParam(name = "email") String email,
             @RequestParam(name = "role") String role,
-            @RequestParam(name = "phone") String phone) {
+            @RequestParam(name = "phone") String phone) throws Exception {
 
         String personId;
 
@@ -65,10 +70,26 @@ public class addNewMemberController {
 
     }
 
-    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName){
+    /*
+    //Creare exception personalizzata
+    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName) throws Exception{
 
         Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName);
-        persistenceService.addNewMember(member);
+        try {
+            persistenceService.addNewMember(member);
+        }
+        catch (ConflictException e){
+           throw new Exception("L'utente è stato già inserito");
+        }
+
+    }
+*/
+
+    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName) throws Exception{
+
+        final Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName);
+        repository.save(member);
+
 
     }
 

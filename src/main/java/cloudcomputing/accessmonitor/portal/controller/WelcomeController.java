@@ -1,5 +1,10 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
+import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
+import cloudcomputing.accessmonitor.portal.service.AdminRepository;
+import cloudcomputing.accessmonitor.portal.service.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,41 +16,19 @@ import java.util.Arrays;
 @Controller
 public class WelcomeController {
 
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcomePage() {
-        System.out.println("called welcome controller");
-        return "/WEB-INF/views/" + "welcome.jsp";
-    }
+    @Autowired
+    private AdminRepository repository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String rootPage() {
+
+        return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String indexPage() {
-        System.out.println("called index controller");
-        return "/WEB-INF/views/" + "index.jsp";
+
+        return "index";
     }
-
-    @RequestMapping(value = "/ciao", method = RequestMethod.GET)
-    public String ciaoPage(Model model) {
-        System.out.println("called index controller");
-        model.addAttribute("oggetto", Arrays.asList("ua", "bell", "stu", "thymeleaf"));
-        return "ciao";
-    }
-
-    @RequestMapping(value = "/H", method = {RequestMethod.GET, RequestMethod.POST})
-    public String hPage(Model model) {
-        System.out.println("called index controller");
-        model.addAttribute("oggetto", Arrays.asList("ua"));
-        return "H";
-    }
-
-    @RequestMapping(value = "/provaht", method = RequestMethod.GET)
-    public String provaPage(Model model) {
-        System.out.println("called index controller");
-        model.addAttribute("oggetto", Arrays.asList("ua"));
-        return "/prova/provaht";
-    }
-
-
-
-
 
 }
