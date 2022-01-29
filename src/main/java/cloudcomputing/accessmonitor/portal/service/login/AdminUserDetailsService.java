@@ -17,11 +17,13 @@ public class AdminUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         List<Admin> admins = repository.findByEmail(email);
-        if (admins == null){
+        Admin admin = null;
+        if (admins.size() == 0){
             throw new UsernameNotFoundException("User not found");
         }
-        Admin admin = admins.get(0);
-
+        else {
+            admin = admins.get(0);
+        }
 
         return new AdminUserDetails(admin);
 
