@@ -19,13 +19,14 @@
             <div class="container-fluid d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
                     <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-camera"></i></div>
-                    <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+                    <div class="sidebar-brand-text mx-3"><span>ACCESS <BR> MONITOR</span></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item" role="presentation"><a class="nav-link active" th:href="@{/}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/displayAllMembers?size=10&page=0}"><i class="fas fa-user"></i><span>Staff</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/AuthorizedAcc?page=0}"><i class="fas fa-user-check"></i><span>Authorized</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/UnauthorizedAcc?page=0}"><i class="fas fa-skull-crossbones"></i><span>Unauthorized</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/displayAllMembers?page=0}"><i class="fas fa-user"></i><span>Staff</span></a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/createNewAdmin}"><i class="fas fa-user-circle"></i><span>Register</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
@@ -52,7 +53,7 @@
                                     <div class="row align-items-center no-gutters">
                                         <div class="col mr-2">
                                             <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span><strong>Unauthorized</strong></span></div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span>$40,000</span></div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span th:text="${un_access}"></span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-skull-crossbones fa-2x text-gray-300"></i></div>
                                     </div>
@@ -65,7 +66,7 @@
                                     <div class="row align-items-center no-gutters">
                                         <div class="col mr-2">
                                             <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>authorized&nbsp;</span></div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span>$215,000</span></div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span th:text="${aut_access}"></span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-user-check fa-2x text-gray-300"></i></div>
                                     </div>
@@ -80,11 +81,11 @@
                                             <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Violation</span></div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>50%</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span th:text="${perc_violation} + '%'"></span></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm">
-                                                        <div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="sr-only">50%</span></div>
+                                                        <div class="progress-bar bg-info" th:aria-valuenow="${perc_violation}" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${perc_violation} + '% ;'"><span class="sr-only">50%</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,7 +101,7 @@
                                     <div class="row align-items-center no-gutters">
                                         <div class="col mr-2">
                                             <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>TOTAL ACCESS</span></div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span>18</span></div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span th:text="${tot_access}"></span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
                                     </div>
@@ -137,9 +138,9 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-area"><canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Authorized&quot;,&quot;Unauthorized&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#1cc88a&quot;,&quot;rgba(0,0,0,0.1)&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;50&quot;,&quot;30&quot;,&quot;&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
+                                    <div class="chart-area"><canvas th:data-bs-chart="'{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Authorized&quot;,&quot;Unauthorized&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#1cc88a&quot;,&quot;#e74a3b&quot;,&quot;rgba(0,0,0,0.1)&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;' + ${100 - perc_violation} + '&quot;,&quot;' + ${perc_violation} + '&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}'"></canvas></div>
                                     <div
-                                        class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Unauthorized</span><span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Autorized</span></div>
+                                        class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-danger"></i>&nbsp;Unauthorized</span><span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Authorized</span></div>
                             </div>
                         </div>
                     </div>

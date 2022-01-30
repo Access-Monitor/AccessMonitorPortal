@@ -2,11 +2,9 @@ package cloudcomputing.accessmonitor.portal.controller;
 
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
-import cloudcomputing.accessmonitor.portal.service.MemberRepository;
-import com.azure.core.http.rest.Page;
+import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
 import com.azure.cosmos.models.PartitionKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class membersPageController {
@@ -28,13 +24,12 @@ public class membersPageController {
     public String addNewMemberPage(
             Model model,
             HttpSession session,
-            @RequestParam("page") int page,
-            @RequestParam("size") int size
+            @RequestParam("page") int page
     ) {
 
-        int offset = page * size;
+        int offset = page * 10;
 
-        List<Member> members = repository.getUsersWithOffsetLimit(offset , size);
+        List<Member> members = repository.getUsersWithOffsetLimit(offset , 10);
 
         long numberOfMembers = repository.count();
 

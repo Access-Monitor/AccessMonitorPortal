@@ -1,4 +1,4 @@
-package cloudcomputing.accessmonitor.portal.service;
+package cloudcomputing.accessmonitor.portal.service.repo;
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
 import com.azure.spring.data.cosmos.repository.CosmosRepository;
@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AdminRepository extends CosmosRepository<Admin, String> {
 
-    @Query("select * from Admin a where a.emailAddress = @email")
+    @Query("select * from Admin a where a.emailAddress = LOWER(@email)")
     List<Admin> findByEmail(@Param("email") String email);
 
 

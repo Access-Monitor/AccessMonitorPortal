@@ -1,4 +1,4 @@
-package cloudcomputing.accessmonitor.portal.service;
+package cloudcomputing.accessmonitor.portal.service.repo;
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
 import com.azure.spring.data.cosmos.repository.CosmosRepository;

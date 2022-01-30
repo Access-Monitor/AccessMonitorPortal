@@ -1,7 +1,7 @@
 package cloudcomputing.accessmonitor.portal.service.login;
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
-import cloudcomputing.accessmonitor.portal.service.AdminRepository;
+import cloudcomputing.accessmonitor.portal.service.repo.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

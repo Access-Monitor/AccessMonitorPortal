@@ -2,8 +2,7 @@ package cloudcomputing.accessmonitor.portal.controller;
 
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
-import cloudcomputing.accessmonitor.portal.service.MemberRepository;
-import cloudcomputing.accessmonitor.portal.service.PersistenceServiceCosmosDBimpl;
+import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
 
 import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
 import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;

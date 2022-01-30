@@ -20,13 +20,14 @@
         <div class="container-fluid d-flex flex-column p-0">
             <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-camera"></i></div>
-                <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+                <div class="sidebar-brand-text mx-3"><span>ACCESS <BR> MONITOR</span></div>
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link active" th:href="@{/displayAllMembers?size=10&page=0}"><i class="fas fa-user"></i><span>Staff</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link active" th:href="@{/}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/AuthorizedAcc?page=0}"><i class="fas fa-user-check"></i><span>Authorized</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/UnauthorizedAcc?page=0}"><i class="fas fa-skull-crossbones"></i><span>Unauthorized</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/displayAllMembers?page=0}"><i class="fas fa-user"></i><span>Staff</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/createNewAdmin}"><i class="fas fa-user-circle"></i><span>Register</span></a></li>
             </ul>
             <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>

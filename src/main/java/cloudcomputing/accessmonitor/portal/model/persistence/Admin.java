@@ -6,6 +6,8 @@ import com.azure.spring.data.cosmos.core.mapping.GeneratedValue;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import org.springframework.data.annotation.Id;
 
+import java.util.Locale;
+
 @Container(containerName = "Administrators")
 public class Admin {
 
@@ -34,7 +36,7 @@ public class Admin {
     }
 
     public void setEmailAddress(String email) {
-        this.emailAddress = email;
+        this.emailAddress = email.toLowerCase(Locale.ROOT);
     }
 
     public String getPassword() {

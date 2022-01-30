@@ -3,7 +3,7 @@ package cloudcomputing.accessmonitor.portal.controller;
 import cloudcomputing.accessmonitor.portal.model.ajax.AdminRegistration;
 import cloudcomputing.accessmonitor.portal.model.ajax.AjaxResponseBody;
 import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
-import cloudcomputing.accessmonitor.portal.service.AdminRepository;
+import cloudcomputing.accessmonitor.portal.service.repo.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class registerController {
