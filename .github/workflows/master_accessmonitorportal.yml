@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'AccessMonitorPortal'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AB9BE2B3437D45DAACF79EE46DD0A0ED }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_513C322B0AD64CC4B49F05A027390F71 }}
           package: '*.jar'
