@@ -1,13 +1,15 @@
 package cloudcomputing.accessmonitor.portal.model.persistence;
 
+import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.apache.commons.codec.binary.Base64;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 
@@ -22,16 +24,25 @@ public class AuthorizedDetection {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime detectionTime;
     private long detectionTimestamp;
-    private byte[] blobContent;
+    private String filename;
+
+    @Transient
     private String base64Image;
 
-    public AuthorizedDetection(String id, String personId, LocalDateTime detectionTime, long detectionTimestamp, byte[] blobContent) {
+    public AuthorizedDetection(String id, String personId, LocalDateTime detectionTime, long detectionTimestamp, String filename) {
         this.id = id;
         this.personId = personId;
         this.detectionTime = detectionTime;
         this.detectionTimestamp = detectionTimestamp;
-        this.blobContent = blobContent;
-        this.base64Image = Base64.encodeBase64String(blobContent);
+        this.filename = filename;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public String getId() {
@@ -66,19 +77,10 @@ public class AuthorizedDetection {
         this.detectionTimestamp = detectionTimestamp;
     }
 
-    public byte[] getBlobContent() {
-        return blobContent;
-    }
-
-    public void setBlobContent(byte[] blobContent) {
-        this.blobContent = blobContent;
-    }
-
     public String getBase64Image() {
-        return base64Image;
+        return new AuthorizedAccessesService().getImageFromBlobContent( "accessmonitorblob" ,"" , this.filename);
     }
 
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
+
+
 }

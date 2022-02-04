@@ -26,6 +26,10 @@ public class AuthorizedController {
 
         List<AuthorizedDetection> accesses = repository.getAuthorizedDetectionLimit(offset, 10);
 
+        for (AuthorizedDetection acc : accesses ) {
+            System.out.println("sonp il base 64" + acc.getBase64Image());
+        }
+
         long numberOfAccesses = repository.count();
 
         session.setAttribute("numberOfAccesses", numberOfAccesses);

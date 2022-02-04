@@ -2,7 +2,9 @@ package cloudcomputing.accessmonitor.portal.controller;
 
 
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
+import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -62,7 +64,8 @@ public class addNewMemberController  {
         System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
         addFaceToPerson(personId, file);
-        storeNewMember(personId, email, role, phone, firstName, lastName);
+        trainPersonGroup();
+        storeNewMember(personId, email, role, phone, firstName, lastName, file);
 
         return "addNewMember";
 
@@ -83,11 +86,24 @@ public class addNewMemberController  {
     }
 */
 
-    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName) throws Exception{
+    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName, MultipartFile image) throws Exception{
 
-        final Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName);
+        byte[] bytes = new byte[0];
+        try {
+            bytes = image.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        final Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName ,personId);
         repository.save(member);
 
+        try {
+            new AuthorizedAccessesService().saveMemberImageToBlob(personId, bytes);
+        }
+        catch (Exception e){
+            repository.delete(member);
+        }
 
     }
 
@@ -181,6 +197,38 @@ public class addNewMemberController  {
         {
             System.out.println(e.getMessage());
         }
+
+
+    }
+
+    private void trainPersonGroup(){
+
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        //https://accessmonitor-cognitive-services.cognitiveservices.azure.com/face/v1.0/persongroups/mainpersongroup/train
+        try
+        {
+            URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/"+ FACEAPI_PERSON_GROUP_NAME
+                    +"/train");
+
+
+            URI uri = builder.build();
+            HttpPost request = new HttpPost(uri);
+            request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY);
+
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null)
+            {
+                System.out.println(EntityUtils.toString(entity));
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
 
 
     }

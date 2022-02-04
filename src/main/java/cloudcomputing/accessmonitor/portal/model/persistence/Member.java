@@ -1,10 +1,14 @@
 package cloudcomputing.accessmonitor.portal.model.persistence;
 
+import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.util.Objects;
+
+import static cloudcomputing.accessmonitor.portal.constants.BlobConstants.BLOB_MEMBERS_CONTAINER_NAME;
 
 @Container(containerName = "AuthorizedMembers")
 public class Member {
@@ -17,6 +21,10 @@ public class Member {
     private String phoneNumber;
     private String firstName;
     private String lastName;
+    private String fileName;
+
+    @Transient
+    private String base64Image;
 
     public String getRole() { return role; }
 
@@ -48,12 +56,22 @@ public class Member {
         this.role = role;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getBase64Image() {
+        return new AuthorizedAccessesService().getImageFromBlobContent(BLOB_MEMBERS_CONTAINER_NAME,"./images/" , this.fileName);
     }
 
     @Override
@@ -69,12 +87,14 @@ public class Member {
         return Objects.hash(id);
     }
 
-    public Member(String id, String personId, String role, String phoneNumber, String firstName, String lastName) {
+    public Member(String id, String personId, String role, String phoneNumber, String firstName, String lastName, String fileName) {
         this.id = id;
         this.personId = personId;
         this.role = role;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.fileName = fileName;
     }
+
 }

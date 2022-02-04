@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
     <link rel="stylesheet" th:href="@{/fonts/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/changeImageProfile.css}">
 
 </head>
 
@@ -148,6 +149,7 @@
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>
                                     <tr>
+                                        <th>Face</th>
                                         <th>Name</th>
                                         <th>Position</th>
                                         <th>Email</th>
@@ -157,11 +159,21 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="member: ${session.memberPage}">
-                                        <td th:text="${member.firstName} + ' ' +${member.lastName} "></td>
+                                        <td> <img id="image-detection" class="rounded-circle mr-2" width="30" height="30" th:src="@{'data:image/jpeg;base64,'+${member.getBase64Image()}}"> </td>
+                                        <td th:text="${member.firstName} + ' ' +${member.lastName} "> </td>
                                         <td th:text="${member.role}" />
                                         <td th:text="${member.id}" />
                                         <td th:text="${member.phoneNumber}"/>
-                                        <td><a class="btn btn-primary d-xl-flex justify-content-center align-items-center align-content-center align-items-xl-start" role="button" style="background-color: rgb(237,22,8);"  th:href="@{/removeMember?id={id}(id=${member.id})}">Remove</a></td>
+
+                                        <td>
+                                            <form action="/removeMember" method="post">
+                                                <input type="submit" class="btn btn-primary d-xl-flex justify-content-center align-items-center align-content-center align-items-xl-start"
+                                                    value="Remove" role="button" style="background-color: rgb(237,22,8);" >
+                                                <input type="hidden" name="id" th:value="${member.id}">
+                                                <input type="hidden" name="personId" th:value="${member.personId}">
+                                            </form>
+                                        </td>
+
                                     </tr>
                                 </tbody>
                                 <tfoot>
