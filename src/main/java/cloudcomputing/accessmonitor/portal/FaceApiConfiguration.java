@@ -42,7 +42,7 @@ public class FaceApiConfiguration {
             StringEntity reqEntity = new StringEntity("{\n" +
                     "    \"name\": \" "+ FACEAPI_PERSON_GROUP_NAME +" \",\n" +
                     "    \"userData\": \"gruppo di prova\",\n" +
-                    "    \"recognitionModel\": \"recognition_03\"\n" +
+                    "    \"recognitionModel\": \"recognition_04\"\n" +
                     "}");
             request.setEntity(reqEntity);
 
