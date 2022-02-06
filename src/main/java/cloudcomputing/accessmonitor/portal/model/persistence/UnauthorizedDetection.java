@@ -26,19 +26,21 @@ public class UnauthorizedDetection {
     private LocalDateTime detectionTime;
     private long detectionTimestamp;
     private boolean notified;
+    private String filename;
 
     @Transient
     private String base64Image;
 
 
-    public UnauthorizedDetection(String id, String faceId, LocalDateTime detectionTime) {
+
+    public UnauthorizedDetection(String id, String faceId, LocalDateTime detectionTime, long detectionTimestamp, boolean notified, String filename) {
         this.id = id;
         this.faceId = faceId;
         this.detectionTime = detectionTime;
-        this.notified = false;
-
+        this.detectionTimestamp = detectionTimestamp;
+        this.notified = notified;
+        this.filename = filename;
     }
-
 
     public String getId() {
         return id;
@@ -81,7 +83,7 @@ public class UnauthorizedDetection {
     }
 
     public String getBase64Image() {
-        return new AuthorizedAccessesService().getImageFromBlobContent("accessmonitorblob","" , this.id);
+        return new AuthorizedAccessesService().getImageFromBlobContent("accessmonitorblob","" , this.filename);
     }
 
 }

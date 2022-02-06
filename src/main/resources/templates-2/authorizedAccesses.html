@@ -13,6 +13,9 @@
 </head>
 
 <body id="page-top">
+<script type="text/javascript">
+    var COLOR = "green";
+</script>
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="opacity: 0.79;background-color: #df574e;">
         <div class="container-fluid d-flex flex-column p-0">
@@ -54,9 +57,11 @@
                                 <div class="col"><img class="image-detection" th:src="@{'data:image/jpeg;base64,'+${access.getBase64Image()}}"  style="width: 404px;height: 404px;margin-top: 24px;margin-bottom: 21px;"></div>
                                 <div class="col align-self-center" style="margin-left: 10px;">
                                     <h1 style="color: rgb(96,203,45);">Detection Date:</h1>
+                                    <!--
                                     <h1 th:text="${access.detectionTime.dayOfMonth} + '/' + ${access.detectionTime.monthValue} + '/' + ${access.detectionTime.year} "></h1>
                                     <h1 style="color: rgb(96,203,45);">Detection Time:</h1>
-                                    <h1 th:text="${access.detectionTime.hour} + ' : ' + ${access.detectionTime.minute} ">20:45</h1>
+                                    -->
+                                    <h1 id="timestamp" th:text="${access.detectionTimestamp}"> </h1>
                                 </div>
                             </div>
                             <div class="row">
@@ -93,6 +98,8 @@
 <script rel="text/javascript" th:src="@{/js/bs-init.js}"></script>
 <script rel="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script rel="text/javascript" th:src="@{/js/theme.js}"></script>
+<script rel="text/javascript" th:src="@{/js/dateConverter.js}"></script>
+
 </body>
 </body>
 

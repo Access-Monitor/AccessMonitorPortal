@@ -1,9 +1,15 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
 
+import cloudcomputing.accessmonitor.portal.NoFaceException;
+import cloudcomputing.accessmonitor.portal.model.ajax.AdminRegistration;
+import cloudcomputing.accessmonitor.portal.model.ajax.AjaxResponseBody;
+import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
 import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
+import cloudcomputing.accessmonitor.portal.service.PersonGruopService;
+import com.azure.cosmos.implementation.directconnectivity.Uri;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,12 +25,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
 import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
@@ -33,7 +44,9 @@ import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
 import java.io.IOException;
 import java.net.URI;
 
+import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Locale;
 
 @Controller
 public class addNewMemberController  {
@@ -63,9 +76,12 @@ public class addNewMemberController  {
 
         System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
-        addFaceToPerson(personId, file);
-        trainPersonGroup();
-        storeNewMember(personId, email, role, phone, firstName, lastName, file);
+
+
+            addFaceToPerson(personId, file);
+            trainPersonGroup();
+            storeNewMember(personId, email.toLowerCase(Locale.ROOT), role, phone, firstName, lastName, file);
+
 
         return "addNewMember";
 
@@ -124,7 +140,6 @@ public class addNewMemberController  {
             request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_JSON );
             request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY );
 
-            System.out.println("subscription: " + FACEAPI_SUBSCRIPTION_KEY);
 
             JSONObject obj=new JSONObject();
             obj.put("name", firstName + lastName);
@@ -157,7 +172,7 @@ public class addNewMemberController  {
 
     }
 
-    private void addFaceToPerson(String personId, MultipartFile image){
+    private void addFaceToPerson(String personId, MultipartFile image) throws URISyntaxException,IOException,NoFaceException{
 
 
         byte[] bytes = new byte[0];
@@ -169,35 +184,26 @@ public class addNewMemberController  {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
-        try
-        {
-            URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/"+ FACEAPI_PERSON_GROUP_NAME
-                    +"/persons/"+personId+"/persistedFaces");
+
+                URIBuilder builder = new URIBuilder(FACEAPI_ENDPOINT + "/face/v1.0/persongroups/"+ FACEAPI_PERSON_GROUP_NAME
+                        +"/persons/"+personId+"/persistedFaces");
 
 
-            URI uri = builder.build();
-            HttpPost request = new HttpPost(uri);
-            request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_OCTET_STREAM);
-            request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY);
+                URI uri = builder.build();
+                HttpPost request = new HttpPost(uri);
+                request.setHeader(CONTENT_TYPE_HEADER, APPLICATION_OCTET_STREAM);
+                request.setHeader(OCP_APIM_SUBSCRIPTION_KEY_HEADER, FACEAPI_SUBSCRIPTION_KEY);
 
 
-            ByteArrayEntity reqEntity = new ByteArrayEntity(bytes, ContentType.APPLICATION_OCTET_STREAM);
-            request.setEntity(reqEntity);
+                ByteArrayEntity reqEntity = new ByteArrayEntity(bytes, ContentType.APPLICATION_OCTET_STREAM);
+                request.setEntity(reqEntity);
+                HttpResponse response = httpclient.execute(request);
+                HttpEntity entity = response.getEntity();
 
-
-            HttpResponse response = httpclient.execute(request);
-            HttpEntity entity = response.getEntity();
-
-            if (entity != null)
-            {
-                System.out.println(EntityUtils.toString(entity));
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-
+                if( response.getStatusLine().getStatusCode() != 200){
+                    new PersonGruopService().removeMemberFromPersonGroup(personId);
+                    throw new NoFaceException("Ops add an image with a face!");
+                }
 
     }
 
@@ -232,6 +238,28 @@ public class addNewMemberController  {
 
 
     }
+
+
+    @RequestMapping(value = "/VerificaEmail", method = RequestMethod.GET)
+    public ResponseEntity<?> verifyMail (
+            @RequestParam(name = "email") String email) throws Exception {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+
+
+        if (repository.findById(email.toLowerCase(Locale.ROOT)).isEmpty()){
+            result.setMsg("<ok/>");
+        }
+        else {
+            result.setMsg("Email già utilizzata!");
+            return ResponseEntity.ok().body(result);
+        }
+
+        return ResponseEntity.ok(result);
+
+    }
+
+
 
 
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.com">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <title>Error 404 :(</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/changeImageProfile.css}">
+    <link rel="stylesheet" th:href="@{/css/Profile-Edit-Form-1.css}">
+    <link rel="stylesheet" th:href="@{/css/Profile-Edit-Form.css}">
+
+</head>
+
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="card shadow-lg o-hidden border-0 my-5">
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-flex">
+                    <div class="flex-grow-1 bg-register-image" id="caneSfondo"></div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="display-1 text-dark mb-4">Oh no something went wrong! </h1>
+                        </div><a class="d-flex justify-content-center"  th:href="@{index}" style="margin-top: 88px;font-size: 32px;">Go to the Dashboard!</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script rel="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script rel="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script rel="text/javascript" th:src="@{/js/chart.min.js}"></script>
+<script rel="text/javascript" th:src="@{/js/bs-init.js}"></script>
+<script rel="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script rel="text/javascript" th:src="@{/js/theme.js}"></script>
+</body>
+
+</html>
