@@ -1,6 +1,7 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
 
+import cloudcomputing.accessmonitor.portal.model.excpetions.WrongParameterException;
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
 import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
@@ -40,6 +41,10 @@ public class membersPageController {
             HttpSession session,
             @RequestParam("page") int page
     ) {
+
+        if(page<0){
+            throw new WrongParameterException("Page Number not valid");
+        }
 
         int offset = page * 10;
 

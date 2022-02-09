@@ -1,5 +1,6 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
+import cloudcomputing.accessmonitor.portal.model.excpetions.WrongParameterException;
 import cloudcomputing.accessmonitor.portal.model.persistence.AuthorizedDetection;
 import cloudcomputing.accessmonitor.portal.service.repo.AuthorizedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class AuthorizedController {
                                   @RequestParam("page") int page
     ) {
 
+        if(page<0){
+            throw new WrongParameterException("Page Number not valid");
+        }
+
         int offset = page * 10;
 
         List<AuthorizedDetection> accesses = repository.getAuthorizedDetectionLimit(offset, 10);
-
-        for (AuthorizedDetection acc : accesses ) {
-            System.out.println("sonp il base 64" + acc.getBase64Image());
-        }
 
         long numberOfAccesses = repository.count();
 

@@ -1,16 +1,13 @@
 package cloudcomputing.accessmonitor.portal.controller;
 
 
-import cloudcomputing.accessmonitor.portal.NoFaceException;
-import cloudcomputing.accessmonitor.portal.model.ajax.AdminRegistration;
+import cloudcomputing.accessmonitor.portal.model.excpetions.NoFaceException;
 import cloudcomputing.accessmonitor.portal.model.ajax.AjaxResponseBody;
-import cloudcomputing.accessmonitor.portal.model.persistence.Admin;
+import cloudcomputing.accessmonitor.portal.model.excpetions.WrongParameterException;
 import cloudcomputing.accessmonitor.portal.model.persistence.Member;
 import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesService;
 import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
 import cloudcomputing.accessmonitor.portal.service.PersonGruopService;
-import com.azure.cosmos.implementation.directconnectivity.Uri;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -28,14 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 
 import static cloudcomputing.accessmonitor.portal.constants.FaceApiConstants.*;
 import static cloudcomputing.accessmonitor.portal.constants.HttpConstants.*;
@@ -72,15 +63,37 @@ public class addNewMemberController  {
             @RequestParam(name = "role") String role,
             @RequestParam(name = "phone") String phone) throws Exception {
 
+
+        if (!(firstName.length() >= 3 && firstName.matches("^[a-zA-Z]+$")))
+        {
+            throw new WrongParameterException("Firstname not valid");
+        }
+
+        if (!(lastName.length() >= 3 && lastName.matches("^[a-zA-Z]+$")))
+        {
+            throw new WrongParameterException("Lastname not valid");
+        }
+
+        if (!(phone.length() == 10 && phone.matches("^[0-9]+$")))
+        {
+            throw new WrongParameterException("Telefono non valido.");
+        }
+
+        if (!(role.length() >= 3 && role.matches("^[a-zA-Z]+$")))
+        {
+            throw new WrongParameterException("Role not valid");
+        }
+
+        if (!(email.matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w+)+$"))) {
+            throw new WrongParameterException("Email not valid");
+        }
+
+
         String personId;
-
-        System.out.println("Sono stato chimamto da  " + firstName);
         personId = createNewPerson(firstName, lastName);
-
-
-            addFaceToPerson(personId, file);
-            trainPersonGroup();
-            storeNewMember(personId, email.toLowerCase(Locale.ROOT), role, phone, firstName, lastName, file);
+        addFaceToPerson(personId, file);
+        trainPersonGroup();
+        storeNewMember(personId, email.toLowerCase(Locale.ROOT), role, phone, firstName, lastName, file);
 
 
         return "addNewMember";
@@ -257,6 +270,14 @@ public class addNewMemberController  {
 
         return ResponseEntity.ok(result);
 
+    }
+
+    @ExceptionHandler({NoFaceException.class})
+    public String databaseError(Exception e, Model model) {
+
+        model.addAttribute("exception" , e);
+
+        return "exception";
     }
 
 

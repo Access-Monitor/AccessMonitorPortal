@@ -14,7 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnauthorizedRepository extends CosmosRepository<UnauthorizedDetection, String> {
 
-    @Query("select * from c offset @offset limit @limit")
+    @Query("SELECT * FROM c ORDER BY c.detectionTimestamp DESC OFFSET @offset LIMIT @limit")
     List<UnauthorizedDetection> getUnauthorizedDetectionLimit(@Param("offset") int offset, @Param("limit") int limit);
+
+    @Query("SELECT * FROM c WHERE c.detectionTimestamp >= @time")
+    List<UnauthorizedDetection> getUnauthorizedDetectionByDetectionTimestampBetween(@Param("time") long time);
 
 }

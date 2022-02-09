@@ -11,7 +11,10 @@ import java.util.List;
 @Repository
 public interface AuthorizedRepository extends CosmosRepository<AuthorizedDetection, String> {
 
-    @Query("select * from c offset @offset limit @limit")
+    @Query("SELECT * FROM c ORDER BY c.detectionTimestamp DESC OFFSET @offset LIMIT @limit")
     List<AuthorizedDetection> getAuthorizedDetectionLimit(@Param("offset") int offset, @Param("limit") int limit);
+
+    @Query("SELECT * FROM c WHERE c.detectionTimestamp >= @time")
+    List<AuthorizedDetection> getUnauthorizedDetectionByDetectionTimestampBetween(@Param("time") long time);
 
 }

@@ -1,4 +1,6 @@
-package cloudcomputing.accessmonitor.portal;
+package cloudcomputing.accessmonitor.portal.model.excpetions;
+
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.ServletException;
 

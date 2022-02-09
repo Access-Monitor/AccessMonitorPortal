@@ -28,34 +28,6 @@ public class registerController {
         return "registerNewAdmin";
     }
 
-    /*
-    @RequestMapping(value = "/addNewAdmin", method = RequestMethod.POST)
-    public String createNewAdmin (
-            @RequestParam(name = "firstname") String firstName,
-            @RequestParam(name = "lastname") String lastName,
-            @RequestParam(name = "email") String email,
-            @RequestParam(name = "password") String password,
-            @RequestParam(name = "password_repeat") String repeatedPassword) throws Exception {
-
-        Admin admin = new Admin();
-        admin.setEmailAddress(email);
-        admin.setFirstName(firstName);
-        admin.setLastName(lastName);
-        admin.setPassword(password);
-        admin.setId(repeatedPassword);
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(admin.getPassword());
-        admin.setPassword(encodedPassword);
-
-        repository.save(admin);
-
-
-        return "registerNewAdmin";
-
-    }
-    */
-
 
     @RequestMapping(value = "/addNewAdmin", method = RequestMethod.POST)
     public ResponseEntity<?> createNewAdmin (

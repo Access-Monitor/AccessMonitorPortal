@@ -24,16 +24,18 @@ public class AuthorizedDetection {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime detectionTime;
     private long detectionTimestamp;
+    private String name;
     private String filename;
 
     @Transient
     private String base64Image;
 
-    public AuthorizedDetection(String id, String personId, LocalDateTime detectionTime, long detectionTimestamp, String filename) {
+    public AuthorizedDetection(String id, String personId, LocalDateTime detectionTime, long detectionTimestamp, String name ,String filename) {
         this.id = id;
         this.personId = personId;
         this.detectionTime = detectionTime;
         this.detectionTimestamp = detectionTimestamp;
+        this.name = name;
         this.filename = filename;
     }
 
@@ -75,6 +77,14 @@ public class AuthorizedDetection {
 
     public void setDetectionTimestamp(long detectionTimestamp) {
         this.detectionTimestamp = detectionTimestamp;
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
     }
 
     public String getBase64Image() {

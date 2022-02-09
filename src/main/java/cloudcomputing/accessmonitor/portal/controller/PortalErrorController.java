@@ -13,9 +13,10 @@ public class PortalErrorController implements ErrorController {
 
 
     @RequestMapping("/error")
-    public String handleError(HttpServletRequest request , Error err) {
+        public String handleError(HttpServletRequest request , Exception e) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        String url = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+
+
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
 
