@@ -155,8 +155,8 @@ public class addNewMemberController  {
 
 
             JSONObject obj=new JSONObject();
-            obj.put("name", firstName + lastName);
-            obj.put("userData", "Ho creato la persona" + firstName + " " + lastName);
+            obj.put("name", firstName + " " + lastName);
+            obj.put("userData", "New person created: " + firstName + " " + lastName);
 
             // Request body
             StringEntity reqEntity = new StringEntity( JSONValue.toJSONString(obj)  );
