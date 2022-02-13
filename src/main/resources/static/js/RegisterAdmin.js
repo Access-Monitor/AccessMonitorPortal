@@ -9,10 +9,8 @@ function toggleAlert(clasz, display , msg){
         $(".alert").addClass("display")
     }
     if(clasz === "alert-success"){
-        //$(".alert > span").text(msg);
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        })
+        $(".alert > span").text(msg);
+
     }else if(clasz === "alert-danger"){
         $(".alert > span").text(msg);
     }
@@ -68,13 +66,15 @@ function fire_ajax_submit() {
 
 
 
-            toggleAlert("alert-success", true , "Admin creato con successo !");
+            //toggleAlert("alert-success", true , "Admin creato con successo !");
 
-            setTimeout(function(){
-                toggleAlert("alert-success");
-            },1000);
+           // setTimeout(function(){
+            //    toggleAlert("alert-success");
+            //},1000);
 
-
+            $('#myModal').on('shown.bs.modal', function () {
+                $('#myInput').trigger('focus')
+            })
 
 
             $("#firstname").val("");
