@@ -91,7 +91,7 @@ public class membersPageController {
 
         int page = (int) session.getAttribute("currentPage");
 
-        if(page*10>=numberOfMembers) {
+        if(page*10>=numberOfMembers && page!=0) {
             page--;
             members = repository.getUsersWithOffsetLimit(page * 10 , 10);
             session.setAttribute("memberPage", members);

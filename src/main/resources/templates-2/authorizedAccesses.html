@@ -63,6 +63,7 @@
                                     <h1 style="color: rgb(96,203,45);">Detection Time:</h1>
                                     -->
                                     <h1 id="timestamp" th:text="${access.detectionTimestamp}"> </h1>
+                                    <h2 style="color: rgb(246,194,62);" th:text = "${access.getCam()}"></h2>
                                 </div>
                             </div>
                             <div class="row">
@@ -76,7 +77,7 @@
                                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                     <ul class="pagination">
                                         <th:block th:each="i: ${#numbers.sequence(0, (session.numberOfAccesses - 1)/10)}">
-                                            <li class="page-item active" th:if="${i == session.currentPage}"><a class="page-link" th:href="@{/AuthorizedAcc?page=${i}}" th:text="${i}"></a></li>
+                                            <li class="page-item active" th:if="${i == session.currentPage}"><a class="page-link" th:href="@{/AuthorizedAcc?page=} + ${i}" th:text="${i}"></a></li>
                                             <li class="page-item" th:if="${i != session.currentPage}"><a class="page-link" th:href="@{/AuthorizedAcc?page=} + ${i}" th:text="${i}"></a></li>
                                         </th:block>
                                     </ul>

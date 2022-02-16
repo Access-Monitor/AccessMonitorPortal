@@ -87,6 +87,13 @@ public class AuthorizedDetection {
         this.base64Image = base64Image;
     }
 
+    public String getCam() {
+
+        String[] filename = getFilename().split("/");
+        return filename[0];
+
+    }
+
     public String getBase64Image() {
         return new AuthorizedAccessesService().getImageFromBlobContent( "accessmonitorblob" ,"" , this.filename);
     }

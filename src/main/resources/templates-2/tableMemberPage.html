@@ -100,7 +100,7 @@
                                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                     <ul class="pagination">
                                         <th:block th:each="i: ${#numbers.sequence(0, (session.numberOfMembers - 1)/10)}">
-                                            <li class="page-item active" th:if="${i == session.currentPage}"><a class="page-link" th:href="@{/displayAllMembers?page=${i}}" th:text="${i}"></a></li>
+                                            <li class="page-item active" th:if="${i == session.currentPage}"><a class="page-link" th:href="@{/displayAllMembers?page=} + ${i}"  th:text="${i}"></a></li>
                                             <li class="page-item" th:if="${i != session.currentPage}"><a class="page-link" th:href="@{/displayAllMembers?page=} + ${i}" th:text="${i}"></a></li>
                                         </th:block>
                                     </ul>

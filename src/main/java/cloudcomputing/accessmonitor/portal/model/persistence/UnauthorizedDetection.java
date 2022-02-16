@@ -86,4 +86,19 @@ public class UnauthorizedDetection {
         return new AuthorizedAccessesService().getImageFromBlobContent("accessmonitorblob","" , this.filename);
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getCam() {
+
+        String[] filename = getFilename().split("/");
+        return filename[0];
+
+    }
+
 }
