@@ -100,20 +100,6 @@ public class addNewMemberController  {
 
     }
 
-    /*
-    //Creare exception personalizzata
-    private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName) throws Exception{
-
-        Member member = new Member(email, personId, role, phoneNumber, firstName,  lastName);
-        try {
-            persistenceService.addNewMember(member);
-        }
-        catch (ConflictException e){
-           throw new Exception("L'utente è stato già inserito");
-        }
-
-    }
-*/
 
     private void storeNewMember(String personId, String email, String role, String phoneNumber, String firstName,  String lastName, MultipartFile image) throws Exception{
 

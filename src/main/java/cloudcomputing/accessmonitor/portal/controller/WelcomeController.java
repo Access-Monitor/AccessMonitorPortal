@@ -62,8 +62,12 @@ public class WelcomeController {
         model.addAttribute("time",now);
         model.addAttribute("last_twelve_un" , accesses);
         model.addAttribute("last_twelve_aut" , aut_accesses);
-
-        model.addAttribute("perc_violation", (numUnauthorized * 100)/totAccess);
+        if (totAccess != 0) {
+            model.addAttribute("perc_violation", (numUnauthorized * 100) / totAccess);
+        }
+        else{
+            model.addAttribute("perc_violation", 0);
+        }
 
         return "index";
 

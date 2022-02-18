@@ -7,9 +7,12 @@ import cloudcomputing.accessmonitor.portal.service.login.AuthorizedAccessesServi
 import cloudcomputing.accessmonitor.portal.service.repo.MemberRepository;
 import com.azure.cosmos.models.PartitionKey;
 import com.azure.storage.blob.models.BlobStorageException;
+import com.google.gson.Gson;
+import com.microsoft.azure.cognitiveservices.vision.faceapi.models.Person;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -71,7 +74,6 @@ public class membersPageController {
         repository.deleteById(id, new PartitionKey(id));
 
         removeMemberFromPersonGroup(personId);
-
         trainPersonGroup();
 
         try {
